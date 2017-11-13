@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayManipulator.Client", "ArrayManipulator.Client\ArrayManipulator.Client.csproj", "{19613E44-87B1-4F2A-B477-39420BBCE133}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayManipulator.Commands", "ArrayManipulator.Commands\ArrayManipulator.Commands.csproj", "{3904CB4F-C5F6-43F3-9BD3-06C61DB91197}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayManipulator.Validators", "ArrayManipulator.Validators\ArrayManipulator.Validators.csproj", "{1F534139-5C2B-4A21-8D2D-6E0482413723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayManipulator.IO", "ArrayManipulator.IO\ArrayManipulator.IO.csproj", "{445E6E0D-1AB4-4EDF-A848-B2ABB9F56D5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayManipulator.CommandInterpreter", "ArrayManipulator.CommandInterpreter\ArrayManipulator.CommandInterpreter.csproj", "{E3636455-98F5-4B06-9262-90DB5BF5D417}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayManipulator.Core", "ArrayManipulator.Core\ArrayManipulator.Core.csproj", "{2938D9FE-1935-4F7C-BF25-6D3F7A5FC932}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19613E44-87B1-4F2A-B477-39420BBCE133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19613E44-87B1-4F2A-B477-39420BBCE133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19613E44-87B1-4F2A-B477-39420BBCE133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19613E44-87B1-4F2A-B477-39420BBCE133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3904CB4F-C5F6-43F3-9BD3-06C61DB91197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3904CB4F-C5F6-43F3-9BD3-06C61DB91197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3904CB4F-C5F6-43F3-9BD3-06C61DB91197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3904CB4F-C5F6-43F3-9BD3-06C61DB91197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F534139-5C2B-4A21-8D2D-6E0482413723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F534139-5C2B-4A21-8D2D-6E0482413723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F534139-5C2B-4A21-8D2D-6E0482413723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F534139-5C2B-4A21-8D2D-6E0482413723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445E6E0D-1AB4-4EDF-A848-B2ABB9F56D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445E6E0D-1AB4-4EDF-A848-B2ABB9F56D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445E6E0D-1AB4-4EDF-A848-B2ABB9F56D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445E6E0D-1AB4-4EDF-A848-B2ABB9F56D5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3636455-98F5-4B06-9262-90DB5BF5D417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3636455-98F5-4B06-9262-90DB5BF5D417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3636455-98F5-4B06-9262-90DB5BF5D417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3636455-98F5-4B06-9262-90DB5BF5D417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2938D9FE-1935-4F7C-BF25-6D3F7A5FC932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2938D9FE-1935-4F7C-BF25-6D3F7A5FC932}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2938D9FE-1935-4F7C-BF25-6D3F7A5FC932}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2938D9FE-1935-4F7C-BF25-6D3F7A5FC932}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ECCBFE27-0B27-4D7D-AF8F-75C9C8DCD4CB}
+	EndGlobalSection
+EndGlobal
