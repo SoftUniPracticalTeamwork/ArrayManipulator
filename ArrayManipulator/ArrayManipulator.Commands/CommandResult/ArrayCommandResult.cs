@@ -1,7 +1,7 @@
 ﻿namespace ArrayManipulator.Commands.CommandResult.Interfaces
 {
     using ArrayManipulator.Commands.ExceptionMessagesProviders;
-    using ArrayManipulator.Validators;
+    using ArrayManipulator.Utils;
     
     public class ArrayCommandResult : IArrayCommandResult
     {

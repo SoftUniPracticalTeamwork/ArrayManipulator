@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ArrayManipulator.Validators\ArrayManipulator.Validators.csproj" />
+    <ProjectReference Include="..\ArrayManipulator.Constants\ArrayManipulator.Constants.csproj" />
+    <ProjectReference Include="..\ArrayManipulator.Validators\ArrayManipulator.Utils.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@
     using ArrayManipulator.Commands.CommandResult.Interfaces;
     using ArrayManipulator.Commands.ExceptionMessagesProviders;
     using ArrayManipulator.Commands.Interfaces;
-    using ArrayManipulator.Validators;
+    using ArrayManipulator.Utils;
 
     public abstract class ArrayCommand : IArrayCommand
     {

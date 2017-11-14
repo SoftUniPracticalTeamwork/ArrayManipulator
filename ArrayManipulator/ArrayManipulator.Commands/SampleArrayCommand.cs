@@ -1,7 +1,7 @@
 ﻿namespace ArrayManipulator.Commands
 {
     using ArrayManipulator.Commands.CommandResult.Interfaces;
-    using ArrayManipulator.Validators;
+    using ArrayManipulator.Utils;
 
     /// <summary>
     /// The name of the command must start with the name of the command form the provided document.
@@ -25,6 +25,8 @@
         public SampleArrayCommand(string neededStringForCommand, int neededIntForCommand, string[] arrayToManipulate)
             : base(arrayToManipulate)
         {
+            this.neededStringForCommand = neededStringForCommand;
+            this.neededIntForCommand = neededIntForCommand;
         }
 
         /// <summary>

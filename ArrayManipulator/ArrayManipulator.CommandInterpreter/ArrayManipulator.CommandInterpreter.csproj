@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArrayManipulator.Commands\ArrayManipulator.Commands.csproj" />
+    <ProjectReference Include="..\ArrayManipulator.Constants\ArrayManipulator.Constants.csproj" />
   </ItemGroup>
 
 </Project>

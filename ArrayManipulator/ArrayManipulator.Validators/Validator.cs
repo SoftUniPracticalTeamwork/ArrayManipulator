@@ -1,4 +1,4 @@
-﻿namespace ArrayManipulator.Validators
+﻿namespace ArrayManipulator.Utils
 {
     using System;
     
@@ -20,6 +20,11 @@
             {
                 throw new ArgumentException(exceptionMessage, parameterName);
             }
+        }
+
+        public static void CheckNull(string[] value, string v, object nullArray)
+        {
+            throw new NotImplementedException();
         }
     }
 }

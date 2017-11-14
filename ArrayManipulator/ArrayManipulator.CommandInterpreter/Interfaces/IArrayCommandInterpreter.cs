@@ -4,6 +4,6 @@
     
     public interface IArrayCommandInterpreter
     {
-        IArrayCommandResult Interpred(string commandName, string[] args);
+        IArrayCommandResult Interpred(string commandName, string[] args, string[] arrayToManipulate);
     }
 }
