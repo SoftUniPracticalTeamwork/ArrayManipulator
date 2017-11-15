@@ -134,6 +134,10 @@
             {
                 commandTextResult = fe.Message;
             }
+            catch(ArgumentException ae)
+            {
+                commandTextResult = ae.Message;
+            }
 
             return commandTextResult;
         }
