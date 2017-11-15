@@ -1,9 +1,8 @@
 ﻿namespace ArrayManipulator.CommandInterpreter
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
     using System.Reflection;
-    using ArrayManipulator.CommandInterpreter.Constants;
     using ArrayManipulator.CommandInterpreter.Interfaces;
     using ArrayManipulator.Commands.AssemblyInformation;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
@@ -13,40 +12,38 @@
 
     public class ArrayCommandInterpreter : IArrayCommandInterpreter
     {
-        private static readonly Type lastCtorConventionType = typeof(string[]);
+        private IArrayCommandConventionBuilder conventionBuilder;
 
-        private ICommandNameConstructor commandNameConstructor;
-
-        public ArrayCommandInterpreter(ICommandNameConstructor commandNameConstructor)
+        public ArrayCommandInterpreter(IArrayCommandConventionBuilder conventionBuilder)
         {
-            this.CommandNameConstructor = commandNameConstructor;
+            this.ConventionBuilder = conventionBuilder;
         }
 
-        private ICommandNameConstructor CommandNameConstructor
+        private IArrayCommandConventionBuilder ConventionBuilder
         {
             get
             {
-                return this.commandNameConstructor;
+                return this.conventionBuilder;
             }
 
             set
             {
                 Validator.CheckNull(value,
-                                    nameof(this.CommandNameConstructor),
+                                    nameof(this.ConventionBuilder),
                                     BasicExceptionMessages.NullObject);
 
-                this.commandNameConstructor = value;
+                this.conventionBuilder = value;
             }
         }
 
         public IArrayCommandResult Interpred(string commandName, string[] args, string[] arrayToManipulate)
         {
-            string constructedCommandName = this.CommandNameConstructor.ConstructName(commandName);
-            Type commandType = this.GetCommandTypeByConvention(commandName, constructedCommandName);
+            Type commandType = this.GetCommandTypeByConvention(commandName);
 
-            ConstructorInfo commandCtor = this.GetCommandCtorByConvention(commandType);
+            int countOfArgsToPass = args.Length + 1;
+            ConstructorInfo commandCtor = this.GetCommandCtorByConvention(commandType, countOfArgsToPass);
 
-            ParameterInfo[] ctorParameters = this.GetParametersByConvention(commandCtor, args);
+            ParameterInfo[] ctorParameters = commandCtor.GetParameters();
 
             object[] parsedParams = this.ParseCommandCtorParameters(args, arrayToManipulate, ctorParameters);
 
@@ -74,42 +71,21 @@
 
             return parsedParams;
         }
-
-        private ParameterInfo[] GetParametersByConvention(ConstructorInfo commandCtor, string[] args)
+        
+        private ConstructorInfo GetCommandCtorByConvention(Type commandType, int countOfArgsToPass)
         {
-            ParameterInfo[] ctorParameters = commandCtor.GetParameters();
-            int countOfCtorParameters = ctorParameters.Length;
+            Func<IEnumerable<ConstructorInfo>, ConstructorInfo> ctorFinderByConvention =
+                                                    this.ConventionBuilder.BuildConstructorFilter(countOfArgsToPass);
 
-            if (countOfCtorParameters != args.Length + 1)
-            {
-                throw new ArgumentException(ExceptionMessages.ParameterCountMissmatch);
-            }
-
-            return ctorParameters;
+            return ctorFinderByConvention(commandType.GetConstructors());
         }
 
-        private ConstructorInfo GetCommandCtorByConvention(Type commandType)
+        private Type GetCommandTypeByConvention(string commandName)
         {
-            ConstructorInfo commandCtor = commandType.GetConstructors()
-                                                     .FirstOrDefault(c => c.GetParameters().Last().ParameterType == lastCtorConventionType);
+            Func<IEnumerable<Type>, Type> typeFinderByConvention =
+                                        this.ConventionBuilder.BuildTypeFilter(commandName);
 
-            Validator.CheckNull(commandCtor,
-                                nameof(commandCtor),
-                                BasicExceptionMessages.NullObject);
-
-            return commandCtor;
-        }
-
-        private Type GetCommandTypeByConvention(string commandName, string constructedCommandName)
-        {
-            Type commandType = CommandsContext.CommandTypesFinalized
-                                              .SingleOrDefault(t => t.NameEquals(constructedCommandName));
-
-            Validator.CheckNull(commandName,
-                                nameof(commandType),
-                                BasicExceptionMessages.NullObject);
-
-            return commandType;
+            return typeFinderByConvention(CommandsContext.CommandTypesFinalized);
         }
     }
 }

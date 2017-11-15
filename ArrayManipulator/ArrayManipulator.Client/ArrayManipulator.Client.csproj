@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ArrayManipulator.CommandInterpreter\ArrayManipulator.CommandInterpreter.csproj" />
     <ProjectReference Include="..\ArrayManipulator.Core\ArrayManipulator.Core.csproj" />
+    <ProjectReference Include="..\ArrayManipulator.Validators\ArrayManipulator.Utils.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,17 @@
             }
         }
 
+        public static void CheckNull<TValue, TException>(TValue valueToCheck, string exceptionMessage)
+                            where TValue : class
+                            where TException : Exception
+        {
+            if (valueToCheck == default(TValue))
+            {
+                TException exception = (TException)Activator.CreateInstance(typeof(TException), exceptionMessage);
+                throw exception;
+            }
+        }
+
         public static void CheckStringEmptyNullOrWhiteSpace(string stringToCheck, string parameterName, string exceptionMessage)
         {
             if (string.IsNullOrEmpty(stringToCheck) ||
@@ -20,11 +31,6 @@
             {
                 throw new ArgumentException(exceptionMessage, parameterName);
             }
-        }
-
-        public static void CheckNull(string[] value, string v, object nullArray)
-        {
-            throw new NotImplementedException();
         }
     }
 }
