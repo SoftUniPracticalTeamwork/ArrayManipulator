@@ -39,14 +39,28 @@
 
         public void ParseString(string stringToParse)
         {
-            string[] parsedString = this.ParsingFunc(stringToParse);
-            if (parsedString.Length < 1)
+            string[] splittedString = this.ParsingFunc(stringToParse);
+            if (splittedString.Length < 1)
             {
                 throw new ArgumentException(DataParserExceptionMessages.InvalidNumberOfArgumentsPassed);
             }
 
-            this.CommandName = parsedString[0];
-            this.CommandArgs = parsedString.Skip(1).ToArray();
+            string commandNameToSet = splittedString[0];
+            if (this.CommandNameShouldBeRollLeftOrRight(splittedString, commandNameToSet))
+            {
+                commandNameToSet = string.Join(string.Empty, commandNameToSet, splittedString[1]);
+            }
+
+            this.CommandName = commandNameToSet;
+            this.CommandArgs = splittedString.Skip(1).ToArray();
+        }
+
+        private bool CommandNameShouldBeRollLeftOrRight(string[] splittedString, string commandNameToSet)
+        {
+            return (commandNameToSet.Equals("roll") &&
+                    splittedString.Length >= 2) &&
+                   (splittedString[1].Equals("left") ||
+                    splittedString[1].Equals("right"));
         }
 
         public string[] ParseStartingArray(string stringToParse)

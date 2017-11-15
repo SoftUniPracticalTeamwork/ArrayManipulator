@@ -60,7 +60,7 @@
             string constructedName = unresolvedCommandName;
             if (!unresolvedCommandName.EndsWith(this.CommandSuffix))
             {
-                constructedName += this.CommandSuffix;
+                constructedName += this.CommandSuffix.ToLower();
             }
 
             return constructedName;
@@ -71,7 +71,7 @@
             string constructedName = this.BuildName(commandName);
             Func<IEnumerable<Type>, Type> filterToReturn = types =>
             {
-                Type searchedType = types.SingleOrDefault(t => t.NameEquals(constructedName));
+                Type searchedType = types.SingleOrDefault(t => t.ToLowerNameEquals(constructedName));
 
                 Validator.CheckNull<Type, TypeConventionException>(searchedType, 
                                                                    ConventionBuilderExceptionMessages.TypeNotFoundByConvention);
@@ -87,7 +87,7 @@
             Func<IEnumerable<ConstructorInfo>, ConstructorInfo> filterToReturn = ctors =>
             {
                 ConstructorInfo searchedCtor = ctors
-                                            .FirstOrDefault(c => c.GetParameters().Last().ParameterType == this.LastCtorType);
+                                            .FirstOrDefault(c => c.LastCtorParameterEquals(this.LastCtorType));
 
                 Validator.CheckNull<ConstructorInfo, ConstructorConventionException>(searchedCtor,
                                                                                      ConventionBuilderExceptionMessages.LastCtorTypeMissmatch);
