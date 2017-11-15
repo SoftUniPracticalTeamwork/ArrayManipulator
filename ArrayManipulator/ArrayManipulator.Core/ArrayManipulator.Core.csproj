@@ -4,4 +4,11 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ArrayManipulator.CommandInterpreter\ArrayManipulator.CommandInterpreter.csproj" />
+    <ProjectReference Include="..\ArrayManipulator.Constants\ArrayManipulator.Constants.csproj" />
+    <ProjectReference Include="..\ArrayManipulator.IO\ArrayManipulator.IO.csproj" />
+    <ProjectReference Include="..\ArrayManipulator.Validators\ArrayManipulator.Utils.csproj" />
+  </ItemGroup>
+
 </Project>

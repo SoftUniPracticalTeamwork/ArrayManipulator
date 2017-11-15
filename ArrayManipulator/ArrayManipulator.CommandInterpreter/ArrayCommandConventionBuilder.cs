@@ -95,7 +95,7 @@
                 ParameterInfo[] ctorParams = searchedCtor.GetParameters();
                 if (ctorParams.Length != countOfArgsToPass)
                 {
-                    throw new ConstructorConventionException(ConventionBuilderExceptionMessages.ParameterCountMissmatch);
+                    throw new ConstructorConventionException(ConventionBuilderExceptionMessages.ParametersMissmatch);
                 }
 
                 return searchedCtor;

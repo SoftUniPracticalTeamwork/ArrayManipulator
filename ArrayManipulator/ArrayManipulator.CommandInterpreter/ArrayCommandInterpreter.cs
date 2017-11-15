@@ -8,7 +8,9 @@
     using ArrayManipulator.Commands.CommandResult.Interfaces;
     using ArrayManipulator.Commands.ExceptionMessagesProviders;
     using ArrayManipulator.Commands.Interfaces;
+    using ArrayManipulator.CommandInterpreter.Constants;
     using ArrayManipulator.Utils;
+    using ArrayManipulator.CommandInterpreter.Exceptions;
 
     public class ArrayCommandInterpreter : IArrayCommandInterpreter
     {
@@ -45,7 +47,15 @@
 
             ParameterInfo[] ctorParameters = commandCtor.GetParameters();
 
-            object[] parsedParams = this.ParseCommandCtorParameters(args, arrayToManipulate, ctorParameters);
+            object[] parsedParams = default(object[]);
+            try
+            {
+                parsedParams = this.ParseCommandCtorParameters(args, arrayToManipulate, ctorParameters);
+            }
+            catch (FormatException)
+            {
+                throw new ConstructorArgsConventionException(ConventionBuilderExceptionMessages.ParametersMissmatch);
+            }
 
             IArrayCommand arrayCommand = (IArrayCommand)Activator.CreateInstance(commandType, parsedParams);
 
