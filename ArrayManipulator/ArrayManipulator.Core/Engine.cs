@@ -100,7 +100,6 @@
         
         public void Run()
         {
-            StringBuilder gatheredOutput = new StringBuilder();
             string readString = this.Reader.Read();
             string[] arrayToManipulate = this.DataParser.ParseStartingArray(readString);
             while (true)
@@ -110,14 +109,13 @@
                 string commandName = this.DataParser.CommandName;
                 string[] commandArgs = this.DataParser.CommandArgs;
 
-                IArrayCommandResult arrayCommandResult = this.InterpredCommand(arrayToManipulate, commandName, commandArgs);
-                arrayToManipulate = arrayCommandResult.ChangedArray;
+                string interptetationResult = this.InterpredCommand(ref arrayToManipulate, commandName, commandArgs);
 
-                gatheredOutput.AppendLine(arrayCommandResult.Result);
+                this.Writer.WriteLine(interptetationResult);
             }
         }
 
-        private IArrayCommandResult InterpredCommand(string[] arrayToManipulate, string commandName, string[] commandArgs)
+        private string InterpredCommand(ref string[] arrayToManipulate, string commandName, string[] commandArgs)
         {
             IArrayCommandResult arrayCommandResult = default(IArrayCommandResult);
             string commandTextResult = string.Empty;
@@ -125,17 +123,20 @@
             {
                 arrayCommandResult =
                             this.CommandInterpreter.Interpred(commandName, commandArgs, arrayToManipulate);
+
+                commandTextResult = arrayCommandResult.Result;
+                arrayToManipulate = arrayCommandResult.ChangedArray;
             }
             catch (ConventionException ce)
             {
-                arrayCommandResult.Result = ce.Message;
+                commandTextResult = ce.Message;
             }
             catch (FormatException fe)
             {
-                arrayCommandResult.Result = fe.Message;
+                commandTextResult = fe.Message;
             }
 
-            return arrayCommandResult;
+            return commandTextResult;
         }
     }
 }
