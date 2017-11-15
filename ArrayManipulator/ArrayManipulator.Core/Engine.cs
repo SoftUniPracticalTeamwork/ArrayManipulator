@@ -1,7 +1,6 @@
 ﻿namespace ArrayManipulator.Core
 {
     using System;
-    using System.Linq;
     using System.Text;
     using ArrayManipulator.CommandInterpreter.Exceptions;
     using ArrayManipulator.CommandInterpreter.Interfaces;
@@ -17,15 +16,18 @@
         private IWriter writer;
 
         private IArrayCommandInterpreter commandInterpreter;
+        private IDataParser dataParser;
 
         public Engine(IReader reader,
                       IWriter writer,
-                      IArrayCommandInterpreter commandInterpreter)
+                      IArrayCommandInterpreter commandInterpreter,
+                      IDataParser dataParser)
         {
             this.Reader = reader;
             this.Writer = writer;
 
             this.CommandInterpreter = commandInterpreter;
+            this.DataParser = dataParser;
         }
 
         private IReader Reader
@@ -78,43 +80,62 @@
                 this.commandInterpreter = value;
             }
         }
+
+        private IDataParser DataParser
+        {
+            get
+            {
+                return this.dataParser;
+            }
+
+            set
+            {
+                Validator.CheckNull(value,
+                                    nameof(this.DataParser),
+                                    BasicExceptionMessages.NullObject);
+
+                this.dataParser = value;
+            }
+        }
         
         public void Run()
         {
             StringBuilder gatheredOutput = new StringBuilder();
-            string[] arrayToManipulate = this.SplitString(this.Reader.Read());
+            string readString = this.Reader.Read();
+            string[] arrayToManipulate = this.DataParser.ParseStartingArray(readString);
             while (true)
             {
-                string[] readArgs = this.SplitString(this.Reader.Read());
-                string commandName = readArgs[0];
-                string[] commandArgs = readArgs.Skip(1).ToArray();
+                readString = this.Reader.Read();
+                this.DataParser.ParseString(readString);
+                string commandName = this.DataParser.CommandName;
+                string[] commandArgs = this.DataParser.CommandArgs;
 
-                IArrayCommandResult arrayCommandResult = default(IArrayCommandResult);
-                string commandTextResult = string.Empty;
-                try
-                {
-                    arrayCommandResult =
-                                this.CommandInterpreter.Interpred(commandName, commandArgs, arrayToManipulate);
+                IArrayCommandResult arrayCommandResult = this.InterpredCommand(arrayToManipulate, commandName, commandArgs);
+                arrayToManipulate = arrayCommandResult.ChangedArray;
 
-                    commandTextResult = arrayCommandResult.Result;
-                    arrayToManipulate = arrayCommandResult.ChangedArray;
-                }
-                catch (ConventionException ce)
-                {
-                    commandTextResult = ce.Message;
-                }
-                catch(FormatException fe)
-                {
-                    commandTextResult = fe.Message;
-                }
-
-                this.Writer.WriteLine(commandTextResult);
+                gatheredOutput.AppendLine(arrayCommandResult.Result);
             }
         }
 
-        private string[] SplitString(string toSplit)
+        private IArrayCommandResult InterpredCommand(string[] arrayToManipulate, string commandName, string[] commandArgs)
         {
-            return toSplit.Trim().Split();
+            IArrayCommandResult arrayCommandResult = default(IArrayCommandResult);
+            string commandTextResult = string.Empty;
+            try
+            {
+                arrayCommandResult =
+                            this.CommandInterpreter.Interpred(commandName, commandArgs, arrayToManipulate);
+            }
+            catch (ConventionException ce)
+            {
+                arrayCommandResult.Result = ce.Message;
+            }
+            catch (FormatException fe)
+            {
+                arrayCommandResult.Result = fe.Message;
+            }
+
+            return arrayCommandResult;
         }
     }
 }

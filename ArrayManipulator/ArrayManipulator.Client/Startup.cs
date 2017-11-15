@@ -4,6 +4,7 @@
     using ArrayManipulator.CommandInterpreter.Interfaces;
     using ArrayManipulator.Commands.Constants;
     using ArrayManipulator.Core;
+    using ArrayManipulator.Core.Constants;
     using ArrayManipulator.Core.Interfaces;
     using ArrayManipulator.IO;
     using ArrayManipulator.IO.Interfaces;
@@ -18,7 +19,12 @@
             IArrayCommandConventionBuilder conventionBuilder = new ArrayCommandConventionBuilder(CommandConstants.CommandSuffix, 
                                                                                                  CommandConstants.LastCtorType);
             IArrayCommandInterpreter commandInterpreter = new ArrayCommandInterpreter(conventionBuilder);
-            IEngine engine = new Engine(reader, writer, commandInterpreter);
+            IDataParser dataParser = new DataParser(DataParserConstants.ParseFunc);
+
+            IEngine engine = new Engine(reader,
+                                        writer, 
+                                        commandInterpreter, 
+                                        dataParser);
             engine.Run();
         }
     }
