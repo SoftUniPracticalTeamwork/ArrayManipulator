@@ -21,7 +21,7 @@
                 return this.result;
             }
 
-            set
+            private set
             {
                 Validator.CheckStringEmptyNullOrWhiteSpace(value,
                                                            nameof(this.Result),

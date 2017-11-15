@@ -1,7 +1,6 @@
 ﻿namespace ArrayManipulator.Core
 {
     using System;
-    using System.Text;
     using ArrayManipulator.CommandInterpreter.Exceptions;
     using ArrayManipulator.CommandInterpreter.Interfaces;
     using ArrayManipulator.Commands.CommandResult.Interfaces;

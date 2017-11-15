@@ -2,7 +2,7 @@
 {
     public interface IArrayCommandResult
     {
-        string Result { get; set; }
+        string Result { get; }
 
         string[] ChangedArray { get; }
     }
