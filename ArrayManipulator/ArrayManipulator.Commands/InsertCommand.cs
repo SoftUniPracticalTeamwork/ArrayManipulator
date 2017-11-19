@@ -32,7 +32,6 @@
                                                        "Message from the static class");
         }
 
-
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
         {
             int size = arrayToManipulate.Length + 1;
