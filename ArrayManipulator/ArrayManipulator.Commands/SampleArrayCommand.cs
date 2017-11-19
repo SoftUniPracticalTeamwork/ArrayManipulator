@@ -59,7 +59,7 @@
         /// </summary>
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
         {
-            string[] newArray = new[] { "test" };
+            string[] newArray = new[] { "test","test2" };
             string message = "some message";
 
             return new ArrayCommandResult(message, newArray);
