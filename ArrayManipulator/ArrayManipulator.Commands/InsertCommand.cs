@@ -1,11 +1,8 @@
 ﻿namespace ArrayManipulator.Commands
 {
-
-    using System;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
     using ArrayManipulator.Utils;
-    using System.Linq;
-    using System.Collections.Generic;
+
 
     public class InsertCommand : ArrayCommand
     {

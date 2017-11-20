@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ArrayManipulator.Commands.CommandResult.Interfaces;
-using ArrayManipulator.Utils;
-
-namespace ArrayManipulator.Commands
+﻿namespace ArrayManipulator.Commands
 {
+    using ArrayManipulator.Commands.CommandResult.Interfaces;
+    using ArrayManipulator.Utils;
+
     class CountCommand : ArrayCommand
     {
         private string recivedString;

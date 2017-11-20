@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace ArrayManipulator.Commands
+{
 using ArrayManipulator.Commands.CommandResult.Interfaces;
 
-namespace ArrayManipulator.Commands
-{
     public class SortCommand : ArrayCommand
     {
         public SortCommand(string[] arrayToManipulate) : base(arrayToManipulate)
