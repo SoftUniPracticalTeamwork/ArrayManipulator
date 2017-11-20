@@ -20,7 +20,7 @@
             string[] arr = arrayToManipulate.Skip(1).Concat(arrayToManipulate.Take(1)).ToArray();
             
             string message = string.Join(" ", arr);
-            return new ArrayCommandResult(message, arrayToManipulate);
+            return new ArrayCommandResult(message, arr);
         }
 
         protected override void ValidateCommandParamaters()
