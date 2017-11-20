@@ -3,26 +3,27 @@
     using ArrayManipulator.Commands.CommandResult.Interfaces;
     using ArrayManipulator.Commands.ExceptionMessagesProviders;
     using ArrayManipulator.Utils;
-
+    using System;
 
     public class InsertCommand : ArrayCommand
     {
         private int recivedIndex;
         private string recivedString;
-
+        private string[] arrToManipulate;
 
         public InsertCommand(int recivedIndex, string recivedString, string[] arrayToManipulate) 
             : base(arrayToManipulate)
         {
             this.recivedIndex = recivedIndex;
             this.recivedString = recivedString;
+            this.arrToManipulate = arrayToManipulate;
         }
 
         protected override void ValidateCommandParamaters()
         {
-            if (this.recivedIndex < 0)
+            if (this.recivedIndex < 0 || this.recivedIndex > arrToManipulate.Length)
             {
-                throw new System.Exception();
+                throw new ArgumentException($"Error: invalid index {this.recivedIndex}");
             }
 
             Validator.CheckStringEmptyNullOrWhiteSpace(this.recivedString,
