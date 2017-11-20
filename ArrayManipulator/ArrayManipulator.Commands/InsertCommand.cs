@@ -1,6 +1,7 @@
 ﻿namespace ArrayManipulator.Commands
 {
     using ArrayManipulator.Commands.CommandResult.Interfaces;
+    using ArrayManipulator.Commands.ExceptionMessagesProviders;
     using ArrayManipulator.Utils;
 
 
@@ -26,7 +27,7 @@
 
             Validator.CheckStringEmptyNullOrWhiteSpace(this.recivedString,
                                                        nameof(this.recivedString),
-                                                       "Message from the static class");
+                                                       BasicExceptionMessages.StringIsNullEmptyOrWhiteSpace);
         }
 
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
