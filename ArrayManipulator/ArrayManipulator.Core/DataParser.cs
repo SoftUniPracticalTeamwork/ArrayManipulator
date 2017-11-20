@@ -46,13 +46,15 @@
             }
 
             string commandNameToSet = splittedString[0];
+            int elementsToSkip = 1;
             if (this.CommandNameShouldBeRollLeftOrRight(splittedString, commandNameToSet))
             {
                 commandNameToSet = string.Join(string.Empty, commandNameToSet, splittedString[1]);
+                elementsToSkip = 2;
             }
 
             this.CommandName = commandNameToSet;
-            this.CommandArgs = splittedString.Skip(1).ToArray();
+            this.CommandArgs = splittedString.Skip(elementsToSkip).ToArray();
         }
 
         private bool CommandNameShouldBeRollLeftOrRight(string[] splittedString, string commandNameToSet)
