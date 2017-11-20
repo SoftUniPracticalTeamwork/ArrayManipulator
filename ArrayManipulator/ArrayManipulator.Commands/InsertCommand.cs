@@ -28,7 +28,7 @@
 
             Validator.CheckStringEmptyNullOrWhiteSpace(this.recivedString,
                                                        nameof(this.recivedString),
-                                                       BasicExceptionMessages.StringIsNullEmptyOrWhiteSpace);
+                                                       "Error: invalid command parameters");
         }
 
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
