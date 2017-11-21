@@ -1,5 +1,6 @@
 ﻿namespace ArrayManipulator.Commands.CommandResult.Interfaces
 {
+    using System.Collections.Generic;
     using ArrayManipulator.Commands.ExceptionMessagesProviders;
     using ArrayManipulator.Utils;
     
@@ -7,6 +8,11 @@
     {
         private string result;
         private string[] changedArray;
+
+        public ArrayCommandResult(string[] changedArray)
+            : this(changedArray.StringJoin(), changedArray)
+        {
+        }
 
         public ArrayCommandResult(string result, string[] changedArray)
         {
@@ -23,7 +29,7 @@
 
             private set
             {
-                Validator.CheckStringEmptyNullOrWhiteSpace(value,
+                Validator.ValidateStringIsNullEmptyOrWhitespace(value,
                                                            nameof(this.Result),
                                                            BasicExceptionMessages.StringIsNullEmptyOrWhiteSpace);
 

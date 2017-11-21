@@ -1,38 +1,47 @@
 ﻿namespace ArrayManipulator.Commands
 {
+    using System;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
-    using ArrayManipulator.Commands.ExceptionMessagesProviders;
+    using ArrayManipulator.Commands.CommandResults;
+    using ArrayManipulator.Commands.CommandResults.Interfaces;
+    using ArrayManipulator.Commands.Constants;
     using ArrayManipulator.Utils;
 
     class CountCommand : ArrayCommand
     {
-        private string recivedString;
+        private string receivedString;
 
-        public CountCommand(string recivedString, string[] arrayToManipulate) : base(arrayToManipulate)
+        public CountCommand(string recivedString, string[] arrayToManipulate) 
+            : base(arrayToManipulate)
         {
-            this.recivedString = recivedString;
+            this.receivedString = recivedString;
         }
-        protected override void ValidateCommandParamaters()
+
+        protected override IValidationResult ValidateCommandParamaters()
         {
-            Validator.CheckStringEmptyNullOrWhiteSpace(this.recivedString,
-                                         nameof(this.recivedString),
-                                         "Error: invalid command parameters");
+            (bool isValid, Exception exception) validation = Validator.ValidateStringIsNullEmptyOrWhitespace(
+                                                                        this.receivedString,
+                                                                        nameof(this.receivedString),
+                                                                        CommandConstants.InvalidParametersMessage,
+                                                                        throwException: false);
+
+
+            return new ValidationResult(validation.isValid, validation.exception);
         }
 
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
         {
             int numberOfMatches = 0;
 
-            foreach(var word in arrayToManipulate)
+            foreach (var word in arrayToManipulate)
             {
-                if(word == recivedString)
+                if (word == this.receivedString)
                 {
                     numberOfMatches++;
                 }
             }
 
             string numberOfMatchesAsMsg = numberOfMatches.ToString();
-
             return new ArrayCommandResult(numberOfMatchesAsMsg, arrayToManipulate);
         }      
     }

@@ -30,7 +30,7 @@
 
             set
             {
-                Validator.CheckStringEmptyNullOrWhiteSpace(value,
+                Validator.ValidateStringIsNullEmptyOrWhitespace(value,
                                                            nameof(this.CommandSuffix),
                                                            BasicExceptionMessages.StringIsNullEmptyOrWhiteSpace);
 

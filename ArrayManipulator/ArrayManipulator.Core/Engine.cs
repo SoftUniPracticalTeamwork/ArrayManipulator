@@ -1,6 +1,7 @@
 ﻿namespace ArrayManipulator.Core
 {
     using System;
+    using System.Linq;
     using ArrayManipulator.CommandInterpreter.Exceptions;
     using ArrayManipulator.CommandInterpreter.Interfaces;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
@@ -11,6 +12,8 @@
 
     public class Engine : IEngine
     {
+        private const string DefaultNullInnerExceptionMessage = "The inner exception was null!!!";
+
         private IReader reader;
         private IWriter writer;
 
@@ -126,17 +129,13 @@
                 commandTextResult = arrayCommandResult.Result;
                 arrayToManipulate = arrayCommandResult.ChangedArray;
             }
-            catch (ConventionException ce)
+            catch (AggregateException ae)
+            {
+                commandTextResult = ae.InnerExceptions.FirstOrDefault()?.Message ?? DefaultNullInnerExceptionMessage;
+            }
+            catch(ConventionException ce)
             {
                 commandTextResult = ce.Message;
-            }
-            catch (FormatException fe)
-            {
-                commandTextResult = fe.Message;
-            }
-            catch(ArgumentException ae)
-            {
-                commandTextResult = ae.Message;
             }
 
             return commandTextResult;

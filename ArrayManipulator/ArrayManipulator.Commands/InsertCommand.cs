@@ -1,34 +1,39 @@
 ﻿namespace ArrayManipulator.Commands
 {
     using ArrayManipulator.Commands.CommandResult.Interfaces;
-    using ArrayManipulator.Commands.ExceptionMessagesProviders;
     using ArrayManipulator.Utils;
+    using ArrayManipulator.Commands.Constants;
     using System;
+    using ArrayManipulator.Commands.CommandResults.Interfaces;
+    using ArrayManipulator.Commands.CommandResults;
 
     public class InsertCommand : ArrayCommand
     {
-        private int recivedIndex;
+        private int receivedIndex;
         private string recivedString;
-        private string[] arrToManipulate;
 
         public InsertCommand(int recivedIndex, string recivedString, string[] arrayToManipulate) 
             : base(arrayToManipulate)
         {
-            this.recivedIndex = recivedIndex;
+            this.receivedIndex = recivedIndex;
             this.recivedString = recivedString;
-            this.arrToManipulate = arrayToManipulate;
         }
 
-        protected override void ValidateCommandParamaters()
+        protected override IValidationResult ValidateCommandParamaters()
         {
-            if (this.recivedIndex < 0 || this.recivedIndex > arrToManipulate.Length)
-            {
-                throw new ArgumentException($"Error: invalid index {this.recivedIndex}");
-            }
+            (bool isVaild, Exception exception) indexIsValid = Validator.ValidateIndexIsInRangeOfArray(
+                                                                            this.receivedIndex, 
+                                                                            this.ArrayToManipulate,
+                                                                            throwException: false);
 
-            Validator.CheckStringEmptyNullOrWhiteSpace(this.recivedString,
-                                                       nameof(this.recivedString),
-                                                       "Error: invalid command parameters");
+            (bool isVaild, Exception exception) stringIsValid = Validator.ValidateStringIsNullEmptyOrWhitespace(
+                                                                               this.recivedString,
+                                                                               nameof(this.recivedString),
+                                                                               CommandConstants.InvalidParametersMessage,
+                                                                               throwException: false);
+
+            return new ValidationResult(indexIsValid.isVaild && stringIsValid.isVaild,
+                                        indexIsValid.exception, stringIsValid.exception);
         }
 
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
@@ -39,11 +44,11 @@
 
             int valuesToInserCounter = 0;
 
-            for(int i = 0; i < newArray.Length; i++)
+            for (int i = 0; i < newArray.Length; i++)
             {
-                if (i == recivedIndex)
+                if (i == this.receivedIndex)
                 {
-                    newArray[i] = recivedString;
+                    newArray[i] = this.recivedString;
 
                     valuesToInserCounter++;
                 }
@@ -52,10 +57,8 @@
                     newArray[i] = arrayToManipulate[i - valuesToInserCounter];
                 }
             }
-
-            string message = string.Join(" ", newArray);
-
-            return new ArrayCommandResult(message, newArray);
+            
+            return new ArrayCommandResult(newArray);
         }     
     }
 }

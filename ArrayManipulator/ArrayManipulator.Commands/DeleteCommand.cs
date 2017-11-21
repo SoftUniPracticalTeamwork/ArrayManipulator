@@ -1,46 +1,46 @@
 ﻿namespace ArrayManipulator.Commands
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
+    using ArrayManipulator.Commands.CommandResults;
+    using ArrayManipulator.Commands.CommandResults.Interfaces;
+    using ArrayManipulator.Utils;
 
     public class DeleteCommand : ArrayCommand
     {
-        int specifiedIndex;
-        string[] arrToManipulate;
+        private int specifiedIndex;
+
         public  DeleteCommand(int specifiedIndex, string[] arrayToManipulate) 
             : base(arrayToManipulate)
         {
             this.specifiedIndex = specifiedIndex;
-            this.arrToManipulate = arrayToManipulate;
         }
 
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
         {  
             string[] array = new string[arrayToManipulate.Length - 1];
+
             int count = 0;
             for (int i = 0; i < arrayToManipulate.Length; i++)
             {
-                if (i != specifiedIndex)
+                if (i != this.specifiedIndex)
                 {
                     array[count] = arrayToManipulate[i];
                     count++;
                 }
             }
-
-            string message = string.Join(" ", array);
-            return new ArrayCommandResult(message, array);
+            
+            return new ArrayCommandResult(array);
         }
 
-        protected override void ValidateCommandParamaters()
+        protected override IValidationResult ValidateCommandParamaters()
         {
-            if (this.specifiedIndex < 0 || this.specifiedIndex > this.arrToManipulate.Length)
-            {
-                throw new ArgumentException($"Error: invalid index {this.specifiedIndex}");
-            }
+           (bool isValid, Exception exception) validationResult = Validator.ValidateIndexIsInRangeOfArray(
+                                                                        this.specifiedIndex,
+                                                                        this.ArrayToManipulate,
+                                                                        throwException: false);
+
+            return new ValidationResult(validationResult.isValid, validationResult.exception);
         }
     }
 }

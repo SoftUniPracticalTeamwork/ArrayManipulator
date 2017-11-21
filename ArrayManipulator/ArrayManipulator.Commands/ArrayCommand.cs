@@ -1,6 +1,8 @@
 ﻿namespace ArrayManipulator.Commands
 {
+    using System;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
+    using ArrayManipulator.Commands.CommandResults.Interfaces;
     using ArrayManipulator.Commands.ExceptionMessagesProviders;
     using ArrayManipulator.Commands.Interfaces;
     using ArrayManipulator.Utils;
@@ -14,14 +16,14 @@
             this.ArrayToManipulate = arrayToManipulate;
         }
 
-        private string[] ArrayToManipulate
+        protected string[] ArrayToManipulate
         {
             get
             {
                 return this.arrayToManipulate;
             }
 
-            set
+            private set
             {
                 Validator.CheckNull(value, 
                                     nameof(this.ArrayToManipulate), 
@@ -31,13 +33,17 @@
             }
         }
 
-        protected abstract void ValidateCommandParamaters();
+        protected abstract IValidationResult ValidateCommandParamaters();
 
         protected abstract IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate);
 
         public IArrayCommandResult Execute()
         {
-            this.ValidateCommandParamaters();
+            IValidationResult validationResult = this.ValidateCommandParamaters();
+            if (!validationResult.IsValid)
+            {
+                throw new AggregateException(validationResult.Exception);
+            }
 
             IArrayCommandResult manipulationResult = this.ManipulateTheArray(this.arrayToManipulate);
 

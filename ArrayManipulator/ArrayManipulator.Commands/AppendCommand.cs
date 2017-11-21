@@ -1,9 +1,10 @@
 ﻿namespace ArrayManipulator.Commands
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
+    using ArrayManipulator.Commands.CommandResults;
+    using ArrayManipulator.Commands.CommandResults.Interfaces;
+    using ArrayManipulator.Commands.Constants;
     using ArrayManipulator.Utils;
 
     public class AppendCommand : ArrayCommand
@@ -18,19 +19,22 @@
 
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
         {
-            string[] arrayToAppend = stringToBeAppended.Split();
+            string[] arrayToAppend = this.stringToBeAppended.Split();
             string[] resultArray = GenerateResultArray(arrayToAppend, arrayToManipulate);
             
-            string message = string.Join(" ", resultArray);
-            return new ArrayCommandResult(message, resultArray);
+            return new ArrayCommandResult(resultArray);
         }
 
-        protected override void ValidateCommandParamaters()
+        protected override IValidationResult ValidateCommandParamaters()
         {
-            Validator.CheckStringEmptyNullOrWhiteSpace(this.stringToBeAppended,
-                                                      nameof(this.stringToBeAppended),
-                                                      //"Message from the static class"
-                                                      "Error: invalid command parameters");
+            (bool isValid, Exception exception) validation = Validator.ValidateStringIsNullEmptyOrWhitespace(
+                                                                        this.stringToBeAppended,
+                                                                        nameof(this.stringToBeAppended),
+                                                                        CommandConstants.InvalidParametersMessage,
+                                                                        throwException: false);
+
+
+            return new ValidationResult(validation.isValid, validation.exception);
         }
 
         private string[] GenerateResultArray (string[] arrayToAppend, string[] arrayToManipulate)
@@ -44,6 +48,7 @@
                 result[count] = substring;
                 count++;
             }
+
             foreach (var substring in arrayToAppend)
             {
                 result[count] = substring;

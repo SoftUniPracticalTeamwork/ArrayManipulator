@@ -45,24 +45,8 @@
                 throw new ArgumentException(DataParserExceptionMessages.InvalidNumberOfArgumentsPassed);
             }
 
-            string commandNameToSet = splittedString[0];
-            int elementsToSkip = 1;
-            if (this.CommandNameShouldBeRollLeftOrRight(splittedString, commandNameToSet))
-            {
-                commandNameToSet = string.Join(string.Empty, commandNameToSet, splittedString[1]);
-                elementsToSkip = 2;
-            }
-
-            this.CommandName = commandNameToSet;
-            this.CommandArgs = splittedString.Skip(elementsToSkip).ToArray();
-        }
-
-        private bool CommandNameShouldBeRollLeftOrRight(string[] splittedString, string commandNameToSet)
-        {
-            return (commandNameToSet.Equals("roll") &&
-                    splittedString.Length >= 2) &&
-                   (splittedString[1].Equals("left") ||
-                    splittedString[1].Equals("right"));
+            this.CommandName = splittedString[0];
+            this.CommandArgs = splittedString.Skip(1).ToArray();
         }
 
         public string[] ParseStartingArray(string stringToParse)

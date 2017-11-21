@@ -2,11 +2,15 @@
 {
     using System;
     using ArrayManipulator.Commands.CommandResult.Interfaces;
+    using ArrayManipulator.Commands.CommandResults;
+    using ArrayManipulator.Commands.CommandResults.Interfaces;
+    using ArrayManipulator.Commands.Constants;
     using ArrayManipulator.Utils;
 
     public class PrependCommand : ArrayCommand
     {
         private string stringToBePrepended;
+
         public  PrependCommand(string stringToBePrepended, string[] arrayToManipulate) 
             : base(arrayToManipulate)
         {
@@ -15,19 +19,21 @@
 
         protected override IArrayCommandResult ManipulateTheArray(string[] arrayToManipulate)
         {
-            string[] arrayToPrepend = stringToBePrepended.Split();
+            string[] arrayToPrepend = this.stringToBePrepended.Split();
             string[] resultArray = GenerateResultArray(arrayToPrepend, arrayToManipulate);
-
-            string message = string.Join(" ", resultArray);
-            return new ArrayCommandResult(message, resultArray);
+            
+            return new ArrayCommandResult(resultArray);
         }
 
-        protected override void ValidateCommandParamaters()
+        protected override IValidationResult ValidateCommandParamaters()
         {
-            Validator.CheckStringEmptyNullOrWhiteSpace(this.stringToBePrepended,
+           (bool isValid, Exception exception) isValid = Validator.ValidateStringIsNullEmptyOrWhitespace(
+                                                      this.stringToBePrepended,
                                                       nameof(this.stringToBePrepended),
-                                                      //"Message from the static class"
-                                                      "Error: invalid command parameters");
+                                                      CommandConstants.InvalidParametersMessage,
+                                                      throwException: false);
+
+            return new ValidationResult(isValid.isValid, isValid.exception);
         }
 
         private string[] GenerateResultArray(string[] arrayToPrepend, string[] arrayToManipulate)
